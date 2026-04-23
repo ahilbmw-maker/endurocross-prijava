@@ -542,7 +542,13 @@
   </div>
 </div>
 
-<form class="form-wrap" id="prijavnica" onsubmit="submitForm(event)">
+<form class="form-wrap" id="prijavnica" onsubmit="submitForm(event)" action="https://api.web3forms.com/submit" method="POST">
+
+  <!-- Web3Forms -->
+  <input type="hidden" name="access_key" value="9072dbde-8a64-41a9-98be-bf03e4d7c920">
+  <input type="hidden" name="subject" value="Nova prijava - Vipavska dolina EnduroCross Challenge">
+  <input type="hidden" name="from_name" value="EnduroCross Prijavnica">
+  <input type="checkbox" name="botcheck" style="display:none">
 
   <!-- 1. OSEBNI PODATKI -->
   <div class="section">
@@ -742,27 +748,40 @@
 </form>
 
 <script>
-  function submitForm(e) {
+  async function submitForm(e) {
     e.preventDefault();
     const form = document.getElementById('prijavnica');
     const success = document.getElementById('successMsg');
+    const btn = form.querySelector('.submit-btn');
 
-    // Collect data
-    const data = new FormData(form);
-    const obj = {};
-    data.forEach((v, k) => obj[k] = v);
-    console.log('Prijavnica data:', obj);
+    btn.textContent = 'Pošiljam...';
+    btn.disabled = true;
 
-    // Show success
-    success.style.display = 'block';
-    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const formData = new FormData(form);
 
-    // Hide submit button
-    form.querySelector('.submit-area').style.opacity = '0.3';
-    form.querySelector('.submit-btn').disabled = true;
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
 
-    // Here you would normally send data to your backend:
-    // fetch('/api/prijava', { method: 'POST', body: JSON.stringify(obj) })
+      const data = await response.json();
+
+      if (data.success) {
+        success.style.display = 'block';
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        form.querySelector('.submit-area').style.opacity = '0.3';
+        btn.textContent = 'Prijava oddana ✓';
+      } else {
+        btn.textContent = 'Napaka — poskusi znova';
+        btn.disabled = false;
+        alert('Napaka pri pošiljanju. Prosimo poskusite znova.');
+      }
+    } catch (err) {
+      btn.textContent = 'Napaka — poskusi znova';
+      btn.disabled = false;
+      alert('Napaka pri pošiljanju. Preverite internetno povezavo.');
+    }
   }
 </script>
 
