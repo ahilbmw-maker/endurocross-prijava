@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prijavnica – Vipavska dolina EnduroCross Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8500A;
+    --orange-dark: #C43D00;
+    --dark: #0F0F0F;
+    --dark2: #1A1A1A;
+    --dark3: #252525;
+    --dark4: #2E2E2E;
+    --light: #F5F0EB;
+    --muted: #888;
+    --border: #333;
+    --input-bg: #1E1E1E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    position: relative;
+    background: var(--dark2);
+    overflow: hidden;
+    padding: 60px 40px 50px;
+    border-bottom: 3px solid var(--orange);
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,80,10,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .event-label {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 6vw, 68px);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    color: var(--light);
+  }
+
+  .header h1 span {
+    color: var(--orange);
+    display: block;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .header-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .header-meta-item .label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .header-meta-item .value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--light);
+  }
+
+  /* PRIJAVA INFO */
+  .info-bar {
+    background: var(--orange);
+    padding: 14px 40px;
+  }
+
+  .info-bar-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .info-bar p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+
+  .info-bar p strong {
+    font-weight: 900;
+  }
+
+  /* FORM WRAPPER */
+  .form-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+  .section:nth-child(5) { animation-delay: 0.5s; }
+  .section:nth-child(6) { animation-delay: 0.6s; }
+  .section:nth-child(7) { animation-delay: 0.7s; }
+  .section:nth-child(8) { animation-delay: 0.8s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    background: var(--orange);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light);
+  }
+
+  /* GRID */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .full { grid-column: 1 / -1; }
+
+  /* FIELD */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .field label .req {
+    color: var(--orange);
+    margin-left: 2px;
+  }
+
+  .field input,
+  .field textarea,
+  .field select {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--light);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    border-radius: 0;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--orange);
+    background: #232323;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: #444;
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  /* KATEGORIJA */
+  .kategory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .kat-option {
+    position: relative;
+  }
+
+  .kat-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+
+  .kat-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px 16px;
+    border: 2px solid var(--border);
+    background: var(--input-bg);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .kat-label:hover {
+    border-color: var(--orange);
+    background: #232323;
+  }
+
+  .kat-option input:checked + .kat-label {
+    border-color: var(--orange);
+    background: rgba(232,80,10,0.12);
+  }
+
+  .kat-icon {
+    font-size: 24px;
+  }
+
+  .kat-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .kat-name.bronze { color: #CD7F32; }
+  .kat-name.silver { color: #C0C0C0; }
+  .kat-name.gold { color: #FFD700; }
+
+  .kat-desc {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* IZJAVA */
+  .izjava-box {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #aaa;
+  }
+
+  .izjava-box p { margin-bottom: 8px; }
+  .izjava-box p:last-child { margin-bottom: 0; }
+
+  .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .checkbox-row input[type="checkbox"] {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: var(--orange);
+    cursor: pointer;
+  }
+
+  .checkbox-row span {
+    font-size: 14px;
+    color: var(--light);
+    line-height: 1.5;
+  }
+
+  /* PRIJAVNINA */
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .price-card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-card.active {
+    border-color: var(--orange);
+  }
+
+  .price-card.active::before {
+    content: 'ZGODNJA PRIJAVA';
+    position: absolute;
+    top: 0; right: 0;
+    background: var(--orange);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 4px 10px;
+  }
+
+  .price-period {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .price-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    color: var(--light);
+    line-height: 1;
+  }
+
+  .price-card.active .price-amount { color: var(--orange); }
+
+  .bank-details {
+    background: var(--dark3);
+    border-left: 3px solid var(--orange);
+    padding: 20px 24px;
+    font-size: 14px;
+    line-height: 2;
+  }
+
+  .bank-details .bank-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .bank-details .bank-label {
+    color: var(--muted);
+    min-width: 80px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+
+  .bank-details .bank-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--light);
+  }
+
+  /* SUBMIT */
+  .submit-area {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .submit-btn {
+    background: var(--orange);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: none;
+    padding: 20px 60px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.1);
+    transition: left 0.3s;
+  }
+
+  .submit-btn:hover { background: var(--orange-dark); transform: translateY(-2px); }
+  .submit-btn:hover::after { left: 100%; }
+  .submit-btn:active { transform: translateY(0); }
+
+  .submit-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* SUCCESS */
+  .success-msg {
+    display: none;
+    background: rgba(232,80,10,0.1);
+    border: 2px solid var(--orange);
+    padding: 32px;
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  .success-msg h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  .success-msg p { color: var(--muted); font-size: 15px; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--orange), transparent);
+    margin: 48px 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .header { padding: 40px 20px 36px; }
+    .form-wrap { padding: 36px 20px 60px; }
+    .info-bar { padding: 14px 20px; }
+    .grid-2, .grid-3, .kategory-grid, .price-grid { grid-template-columns: 1fr; }
+    .info-bar-inner { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="event-label">Prijavnica 2026</div>
+    <h1>Vipavska dolina<span>EnduroCross Challenge</span></h1>
+    <div class="header-meta">
+      <div class="header-meta-item">
+        <span class="label">Organizator</span>
+        <span class="value">AMD Rally Raid Team Vipavska Dolina</span>
+      </div>
+      <div class="header-meta-item">
+        <span class="label">Kontakt</span>
+        <span class="value">info@amdrrtvipavskadolina.si</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="info-bar">
+  <div class="info-bar-inner">
+    <p>⏱ <strong>Zgodnja prijava (do 28. 4.):</strong> 60 €</p>
+    <p>📅 <strong>Redna prijava (29. 4. – 8. 5.):</strong> 80 €</p>
+  </div>
+</div>
+
+<form class="form-wrap" id="prijavnica" onsubmit="submitForm(event)">
+
+  <!-- 1. OSEBNI PODATKI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Osebni podatki tekmovalca</div>
+    </div>
+    <div class="grid-2">
+      <div class="field full">
+        <label>Ime in priimek <span class="req">*</span></label>
+        <input type="text" name="ime_priimek" placeholder="npr. Janez Novak" required>
+      </div>
+      <div class="field">
+        <label>Datum rojstva <span class="req">*</span></label>
+        <input type="date" name="datum_rojstva" required>
+      </div>
+      <div class="field">
+        <label>Telefon <span class="req">*</span></label>
+        <input type="tel" name="telefon" placeholder="+386 41 123 456" required>
+      </div>
+      <div class="field full">
+        <label>E-mail <span class="req">*</span></label>
+        <input type="email" name="email" placeholder="janez@email.com" required>
+      </div>
+      <div class="field full">
+        <label>Naslov</label>
+        <input type="text" name="naslov" placeholder="Ulica in hišna številka">
+      </div>
+      <div class="field">
+        <label>Poštna številka in kraj</label>
+        <input type="text" name="posta" placeholder="1000 Ljubljana">
+      </div>
+      <div class="field">
+        <label>Država</label>
+        <input type="text" name="drzava" placeholder="Slovenija">
+      </div>
+      <div class="field full">
+        <label>Klub / društvo</label>
+        <input type="text" name="klub" placeholder="Naziv kluba ali društva">
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. KATEGORIJA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">Kategorija <span style="color:var(--orange)">*</span></div>
+    </div>
+    <div class="kategory-grid">
+      <div class="kat-option">
+        <input type="radio" name="kategorija" id="bronze" value="Bronze" required>
+        <label class="kat-label" for="bronze">
+          <span class="kat-icon">🥉</span>
+          <span class="kat-name bronze">Bronze</span>
+          <span class="kat-desc">Začetniki</span>
+        </label>
+      </div>
+      <div class="kat-option">
+        <input type="radio" name="kategorija" id="silver" value="Silver">
+        <label class="kat-label" for="silver">
+          <span class="kat-icon">🥈</span>
+          <span class="kat-name silver">Silver</span>
+          <span class="kat-desc">Izkušeni</span>
+        </label>
+      </div>
+      <div class="kat-option">
+        <input type="radio" name="kategorija" id="gold" value="Gold">
+        <label class="kat-label" for="gold">
+          <span class="kat-icon">🥇</span>
+          <span class="kat-name gold">Gold</span>
+          <span class="kat-desc">Eksperti</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MOTOR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">Podatki o motorju</div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Znamka in model</label>
+        <input type="text" name="motor_znamka" placeholder="npr. KTM EXC 300">
+      </div>
+      <div class="field">
+        <label>Prostornina (ccm)</label>
+        <input type="text" name="motor_ccm" placeholder="npr. 300">
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. KONTAKT V NUJNEM PRIMERU -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Kontakt v nujnem primeru</div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Ime in priimek <span class="req">*</span></label>
+        <input type="text" name="nujni_ime" placeholder="npr. Ana Novak" required>
+      </div>
+      <div class="field">
+        <label>Telefon <span class="req">*</span></label>
+        <input type="tel" name="nujni_telefon" placeholder="+386 41 123 456" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. IZJAVA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Izjava tekmovalca</div>
+    </div>
+    <div class="izjava-box">
+      <p>S podpisom potrjujem, da:</p>
+      <p>• sodelujem na lastno odgovornost</p>
+      <p>• sem zdravstveno sposoben za udeležbo</p>
+      <p>• imam ustrezno zaščitno opremo</p>
+      <p>• se strinjam s pravili organizatorja</p>
+      <p>• dovoljujem uporabo fotografij in video posnetkov za promocijske namene</p>
+    </div>
+    <label class="checkbox-row">
+      <input type="checkbox" name="izjava" required>
+      <span>Potrjujem in se strinjam z zgornjimi pogoji udeležbe. <span class="req">*</span></span>
+    </label>
+  </div>
+
+  <!-- 6. OPIS ZA NAPOVEDOVALCA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">Opis za napovedovalca</div>
+    </div>
+    <div class="field">
+      <label>Kratka predstavitev (dirkaška pot, izkušnje, dosežki, zanimivosti...)</label>
+      <textarea name="opis" placeholder="Na kratko opiši svojo dirkaško pot, izkušnje, dosežke in zanimivosti o sebi (kraj, koliko časa dirkaš, kaj voziš, cilji ipd.), da te lahko napovedovalec predstavi gledalcem."></textarea>
+    </div>
+  </div>
+
+  <!-- 7. PRIJAVNINA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-title">Prijavnina</div>
+    </div>
+    <div class="price-grid">
+      <div class="price-card active">
+        <div class="price-period">Do 28. 4. 2026</div>
+        <div class="price-amount">60 €</div>
+      </div>
+      <div class="price-card">
+        <div class="price-period">29. 4. – 8. 5. 2026</div>
+        <div class="price-amount">80 €</div>
+      </div>
+    </div>
+    <div class="bank-details">
+      <div class="bank-row">
+        <span class="bank-label">Prejemnik</span>
+        <span class="bank-value">AVTO MOTO DRUŠTVO RALLY RAID TEAM VIPAVSKA DOLINA</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Naslov</span>
+        <span class="bank-value">Tovarnška cesta 4A, 5270 Ajdovščina</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">IBAN</span>
+        <span class="bank-value">SI56 6400 0000 1095 141</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Namen</span>
+        <span class="bank-value">Ime in priimek – Štartnina</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Sklic</span>
+        <span class="bank-value">00-012026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-area">
+    <button type="submit" class="submit-btn">Oddaj prijavo →</button>
+    <p class="submit-note">Po oddaji prejmete potrditev na vaš e-mail naslov.</p>
+  </div>
+
+  <div class="success-msg" id="successMsg">
+    <h3>🏍️ Prijava oddana!</h3>
+    <p>Hvala za prijavo. Potrditev boste prejeli na vaš e-mail naslov.<br>Ne pozabite poravnati prijavnine po zgoraj navedenih podatkih.</p>
+  </div>
+
+</form>
+
+<script>
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById('prijavnica');
+    const success = document.getElementById('successMsg');
+
+    // Collect data
+    const data = new FormData(form);
+    const obj = {};
+    data.forEach((v, k) => obj[k] = v);
+    console.log('Prijavnica data:', obj);
+
+    // Show success
+    success.style.display = 'block';
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Hide submit button
+    form.querySelector('.submit-area').style.opacity = '0.3';
+    form.querySelector('.submit-btn').disabled = true;
+
+    // Here you would normally send data to your backend:
+    // fetch('/api/prijava', { method: 'POST', body: JSON.stringify(obj) })
+  }
+</script>
+
+</body>
+</html>
