@@ -112,7 +112,7 @@
   .urgency-bar {
     background: #0a0a0a;
     border-bottom: 1px solid #222;
-    padding: 10px 40px;
+    padding: 10px 20px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -122,19 +122,20 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 12px;
+    flex-wrap: nowrap;
   }
   .urgency-text {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 1px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
     color: var(--light);
     white-space: nowrap;
+    flex-shrink: 0;
   }
-  .urgency-text span { color: var(--orange); font-size: 17px; font-weight: 900; }
-  .urgency-track { flex: 1; height: 6px; background: #2a2a2a; overflow: hidden; min-width: 100px; }
+  .urgency-text span { color: var(--orange); font-size: 18px; font-weight: 900; }
+  .urgency-track { flex: 1; height: 6px; background: #2a2a2a; overflow: hidden; min-width: 60px; }
   .urgency-fill {
     height: 100%;
     background: linear-gradient(90deg, #C43D00, #E8500A);
@@ -579,9 +580,8 @@
 <!-- URGENCY BAR -->
 <div class="urgency-bar">
   <div class="urgency-inner">
-    <div class="urgency-text">🏍️ Prosta mesta: <span id="spotsLeft">8</span> / 30</div>
+    <div class="urgency-text">⚡ Samo še <span id="spotsLeft">8</span> mest!</div>
     <div class="urgency-track"><div class="urgency-fill" id="urgencyFill"></div></div>
-    <div class="urgency-badge">⚡ Hitro zapolni!</div>
   </div>
 </div>
 
