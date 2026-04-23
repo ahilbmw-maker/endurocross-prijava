@@ -108,6 +108,64 @@
     color: var(--light);
   }
 
+  /* URGENCY BAR */
+  .urgency-bar {
+    background: #0a0a0a;
+    border-bottom: 1px solid #222;
+    padding: 10px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .urgency-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .urgency-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--light);
+    white-space: nowrap;
+  }
+  .urgency-text span { color: var(--orange); font-size: 17px; font-weight: 900; }
+  .urgency-track { flex: 1; height: 6px; background: #2a2a2a; overflow: hidden; min-width: 100px; }
+  .urgency-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #C43D00, #E8500A);
+    width: 0%;
+    transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .urgency-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0;
+    width: 3px; height: 100%;
+    background: #fff;
+    opacity: 0.7;
+    animation: blinkBar 1s ease-in-out infinite;
+  }
+  @keyframes blinkBar { 0%,100%{opacity:0.7} 50%{opacity:0.1} }
+  .urgency-badge {
+    background: var(--orange);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    white-space: nowrap;
+    animation: blinkBadge 2s ease-in-out infinite;
+  }
+  @keyframes blinkBadge { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
   /* PRIJAVA INFO */
   .info-bar {
     background: var(--orange);
@@ -518,6 +576,15 @@
 </head>
 <body>
 
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  <div class="urgency-inner">
+    <div class="urgency-text">🏍️ Prosta mesta: <span id="spotsLeft">8</span> / 30</div>
+    <div class="urgency-track"><div class="urgency-fill" id="urgencyFill"></div></div>
+    <div class="urgency-badge">⚡ Hitro zapolni!</div>
+  </div>
+</div>
+
 <div class="header">
   <div class="header-inner">
     <div class="event-label">Prijavnica 2026</div>
@@ -748,6 +815,18 @@
 </form>
 
 <script>
+  // URGENCY BAR INIT
+  const totalSpots = 30;
+  const takenSpots = 22;
+  const freeSpots = totalSpots - takenSpots;
+  const fillPct = (takenSpots / totalSpots) * 100;
+
+  document.getElementById("spotsLeft").textContent = freeSpots;
+
+  setTimeout(() => {
+    document.getElementById("urgencyFill").style.width = fillPct + "%";
+  }, 500);
+
   async function submitForm(e) {
     e.preventDefault();
     const form = document.getElementById('prijavnica');
