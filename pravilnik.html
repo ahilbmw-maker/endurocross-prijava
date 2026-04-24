@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pravilnik – Vipavska dolina EnduroCross Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8500A;
+    --orange-dark: #C43D00;
+    --dark: #0F0F0F;
+    --dark2: #1A1A1A;
+    --dark3: #252525;
+    --light: #F5F0EB;
+    --muted: #888;
+    --border: #333;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* LANG BAR */
+  .lang-bar {
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 8px 40px;
+  }
+  .lang-bar-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .back-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--orange); }
+  .lang-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lang-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #555; font-family: 'Barlow Condensed', sans-serif; }
+  .lang-select {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: var(--light);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 5px 28px 5px 10px;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23E8500A' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: border-color 0.2s;
+  }
+  .lang-select:focus { border-color: var(--orange); }
+
+  /* HEADER */
+  .header {
+    background: var(--dark2);
+    padding: 50px 40px 40px;
+    border-bottom: 3px solid var(--orange);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,80,10,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner { max-width: 860px; margin: 0 auto; position: relative; }
+  .event-label {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 5vw, 58px);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+  .header h1 span { color: var(--orange); display: block; }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .header-meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .header-meta-item .label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .header-meta-item .value { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 15px; }
+
+  /* CONTENT */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+  }
+
+  /* SECTION */
+  .reg-section {
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .reg-section:nth-child(1) { animation-delay: 0.05s; }
+  .reg-section:nth-child(2) { animation-delay: 0.1s; }
+  .reg-section:nth-child(3) { animation-delay: 0.15s; }
+  .reg-section:nth-child(4) { animation-delay: 0.2s; }
+  .reg-section:nth-child(5) { animation-delay: 0.25s; }
+  .reg-section:nth-child(6) { animation-delay: 0.3s; }
+  .reg-section:nth-child(7) { animation-delay: 0.35s; }
+  .reg-section:nth-child(8) { animation-delay: 0.4s; }
+  .reg-section:nth-child(9) { animation-delay: 0.45s; }
+  .reg-section:nth-child(10) { animation-delay: 0.5s; }
+  .reg-section:nth-child(11) { animation-delay: 0.55s; }
+  .reg-section:nth-child(12) { animation-delay: 0.6s; }
+  .reg-section:nth-child(13) { animation-delay: 0.65s; }
+  .reg-section:nth-child(14) { animation-delay: 0.7s; }
+  .reg-section:nth-child(15) { animation-delay: 0.75s; }
+
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  .reg-section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .reg-num {
+    background: var(--orange);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    min-width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .reg-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .reg-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #ccc;
+  }
+  .reg-body p { margin-bottom: 8px; }
+  .reg-body p:last-child { margin-bottom: 0; }
+  .reg-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  .reg-body ul li {
+    padding: 4px 0 4px 18px;
+    position: relative;
+  }
+  .reg-body ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-weight: 700;
+  }
+  .reg-body strong { color: var(--light); }
+
+  /* SCHEDULE TABLE */
+  .schedule {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .schedule-row {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule-row:last-child { border-bottom: none; }
+  .schedule-row.header-row {
+    background: var(--orange);
+  }
+  .schedule-row.header-row .schedule-time,
+  .schedule-row.header-row .schedule-event {
+    color: #fff;
+    font-weight: 700;
+  }
+  .schedule-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--orange);
+    padding: 10px 16px;
+    min-width: 140px;
+    border-right: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+  .schedule-event {
+    font-size: 14px;
+    color: #ccc;
+    padding: 10px 16px;
+    flex: 1;
+  }
+  .schedule-row.highlight { background: rgba(232,80,10,0.08); }
+
+  /* SCORING */
+  .scoring-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .score-item {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 12px;
+    text-align: center;
+  }
+  .score-place {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--orange);
+  }
+  .score-pts {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  /* WARNING BOX */
+  .warning-box {
+    background: rgba(232,80,10,0.1);
+    border: 1px solid var(--orange);
+    border-left: 4px solid var(--orange);
+    padding: 16px 20px;
+    margin-top: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--light);
+  }
+
+  /* LOCATION */
+  .location-box {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    padding: 14px 18px;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #ccc;
+  }
+  .location-box a {
+    color: var(--orange);
+    text-decoration: none;
+  }
+  .location-box a:hover { text-decoration: underline; }
+
+  /* CATEGORIES */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .cat-card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .cat-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .cat-name.bronze { color: #CD7F32; }
+  .cat-name.silver { color: #C0C0C0; }
+  .cat-name.gold { color: #FFD700; }
+  .cat-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    padding: 30px 40px;
+    text-align: center;
+  }
+  .footer-inner { max-width: 860px; margin: 0 auto; }
+  .footer p { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .footer strong { color: var(--light); font-family: 'Barlow Condensed', sans-serif; font-size: 15px; letter-spacing: 1px; }
+
+  .register-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: var(--orange);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 16px 48px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .register-btn:hover { background: var(--orange-dark); transform: translateY(-2px); }
+
+  @media (max-width: 640px) {
+    .lang-bar { padding: 8px 20px; }
+    .header { padding: 36px 20px 30px; }
+    .content { padding: 36px 20px 60px; }
+    .footer { padding: 24px 20px; }
+    .scoring-grid { grid-template-columns: repeat(4, 1fr); }
+    .cat-grid { grid-template-columns: 1fr; }
+    .schedule-time { min-width: 110px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <div class="lang-bar-inner">
+    <a href="/" class="back-link" id="backLink">← Nazaj na prijavnico</a>
+    <div class="lang-right">
+      <span class="lang-label">🌐</span>
+      <select class="lang-select" id="langSelect" onchange="switchLang(this.value)">
+        <option value="sl">🇸🇮 Slovenščina</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="it">🇮🇹 Italiano</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="event-label" id="eventLabel">Pravilnik 2026</div>
+    <h1 id="mainTitle">Vipavska dolina<span>EnduroCross Challenge</span></h1>
+    <div class="header-meta">
+      <div class="header-meta-item">
+        <span class="label" id="dateLabel">DATUM</span>
+        <span class="value">8. 5. 2026 — Ajdovščina</span>
+      </div>
+      <div class="header-meta-item">
+        <span class="label" id="orgLabel">ORGANIZATOR</span>
+        <span class="value">AMD Rally Raid Team Vipavska Dolina</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="regContent">
+
+  <!-- 1 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">1</div>
+      <div class="reg-title" id="sec1title">Splošne določbe</div>
+    </div>
+    <div class="reg-body" id="sec1body">
+      <p>Ta pravilnik določa pogoje za udeležbo, pravila tekmovanja in varnostne zahteve za enduro cross dirko, ki se bo organizirala v Ajdovščini dne <strong>8. 5. 2026</strong>.</p>
+      <p>Organizator si pridržuje pravico do sprememb pravilnika zaradi varnosti ali organizacijskih razlogov.</p>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">2</div>
+      <div class="reg-title" id="sec2title">Pogoji za udeležbo</div>
+    </div>
+    <div class="reg-body" id="sec2body">
+      <ul>
+        <li>Tekmovalci morajo biti stari najmanj <strong>16 let</strong>.</li>
+        <li>Mlajši od 18 let potrebujejo pisno soglasje staršev ali skrbnikov.</li>
+        <li>Obvezna je podpisana izjava o odgovornosti.</li>
+        <li>Vsak tekmovalec sodeluje na lastno odgovornost.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">3</div>
+      <div class="reg-title" id="sec3title">Kategorije</div>
+    </div>
+    <div class="reg-body" id="sec3body">
+      <div class="cat-grid">
+        <div class="cat-card">
+          <div class="cat-name bronze">🥉 Bronze</div>
+          <div class="cat-desc" id="catBronzeDesc">Rekreativni vozniki brez ali z malo tekmovalnih izkušenj (16 tekmovalcev)<br><br>Osnovna krožna proga</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-name silver">🥈 Silver</div>
+          <div class="cat-desc" id="catSilverDesc">Vozniki s tekmovalnimi izkušnjami na zahtevnejših terenih (16 tekmovalcev)<br><br>Osnovna proga + en zahtevnejši odsek</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-name gold">🥇 Gold</div>
+          <div class="cat-desc" id="catGoldDesc">Vozniki z izkušnjami z zahtevnejših mednarodnih tekmovanj (16 tekmovalcev)<br><br>Trasa Silver + dva dodatna zahtevna odseka</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">4</div>
+      <div class="reg-title" id="sec4title">Motorji in oprema</div>
+    </div>
+    <div class="reg-body" id="sec4body">
+      <p>Dovoljeni so enduro in cross motocikli. Motor mora biti tehnično brezhiben.</p>
+      <p><strong>Obvezna oprema:</strong></p>
+      <ul>
+        <li>Čelada</li>
+        <li>Zaščitna očala</li>
+        <li>Rokavice</li>
+        <li>Zaščita za kolena in komolce</li>
+        <li>Zaščitni jopič ali "body armor"</li>
+        <li>Motoristični škornji</li>
+      </ul>
+      <div class="warning-box" id="sec4warning">⚠️ Brez ustrezne opreme nastop ni dovoljen</div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">5</div>
+      <div class="reg-title" id="sec5title">Proga</div>
+    </div>
+    <div class="reg-body" id="sec5body">
+      <p>Proga je označena s trakovi, zastavicami ali tablami. Vključuje naravne ovire (korenine, kamenje, klanci) in umetne ovire (hlodi, gume, skoki).</p>
+      <p>Prepovedano je zapuščanje označene trase.</p>
+    </div>
+    <div class="location-box">
+      📍 Tovarniška cesta 2–4, 5270 Ajdovščina<br>
+      <a href="https://maps.app.goo.gl/Htz1Z8sU4wzk13ws5" target="_blank">45.886397, 13.903351 → Odpri v Google Maps</a>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">6</div>
+      <div class="reg-title" id="sec6title">Potek dirke</div>
+    </div>
+    <div class="reg-body">
+      <div class="schedule">
+        <div class="schedule-row header-row">
+          <div class="schedule-time" id="schedTimeLabel">Čas</div>
+          <div class="schedule-event" id="schedEventLabel">Program</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">10:15 – 11:15</div>
+          <div class="schedule-event" id="sch1">Prijave in ogled trase</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">11:15 – 11:45</div>
+          <div class="schedule-event" id="sch2">Briefing</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">11:45 – 12:15</div>
+          <div class="schedule-event" id="sch3">🥉 Trening Bronze (20 min)</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">12:15 – 12:45</div>
+          <div class="schedule-event" id="sch4">🥈 Trening Silver (20 min)</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">12:45 – 13:15</div>
+          <div class="schedule-event" id="sch5">🥇 Trening Gold (20 min)</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">13:45 – 14:45</div>
+          <div class="schedule-event" id="sch6">Kvalifikacije – 1. vožnja</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">14:45 – 15:45</div>
+          <div class="schedule-event" id="sch7">Kvalifikacije – 2. vožnja</div>
+        </div>
+        <div class="schedule-row highlight">
+          <div class="schedule-time">16:00 – 16:15</div>
+          <div class="schedule-event" id="sch8">🥉 Bronze – 1. dirka</div>
+        </div>
+        <div class="schedule-row highlight">
+          <div class="schedule-time">16:15 – 16:30</div>
+          <div class="schedule-event" id="sch9">🥈 Silver – 1. dirka</div>
+        </div>
+        <div class="schedule-row highlight">
+          <div class="schedule-time">16:30 – 16:45</div>
+          <div class="schedule-event" id="sch10">🥇 Gold – 1. dirka</div>
+        </div>
+        <div class="schedule-row highlight">
+          <div class="schedule-time">16:45 – 17:00</div>
+          <div class="schedule-event" id="sch11">🥉 Bronze – 2. dirka</div>
+        </div>
+        <div class="schedule-row highlight">
+          <div class="schedule-time">17:00 – 17:15</div>
+          <div class="schedule-event" id="sch12">🥈 Silver – 2. dirka</div>
+        </div>
+        <div class="schedule-row highlight">
+          <div class="schedule-time">17:15 – 17:30</div>
+          <div class="schedule-event" id="sch13">🥇 Gold – 2. dirka</div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-time">22:00</div>
+          <div class="schedule-event" id="sch14">🏆 Podelitev nagrad (po SS1 Rally Vipavska dolina)</div>
+        </div>
+      </div>
+      <p style="margin-top:12px; font-size:13px; color:var(--muted)" id="raceDuration">Vsaka dirka traja <strong>4 minute + en krog</strong>. Start: 2 vrsti po 6 tekmovalcev, motorji ugasnjeni, start s strelom.</p>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">7</div>
+      <div class="reg-title" id="sec7title">Točkovanje</div>
+    </div>
+    <div class="reg-body">
+      <div class="scoring-grid">
+        <div class="score-item"><div class="score-place">1.</div><div class="score-pts">10 <span id="pts">točk</span></div></div>
+        <div class="score-item"><div class="score-place">2.</div><div class="score-pts">8 <span id="pts2">točk</span></div></div>
+        <div class="score-item"><div class="score-place">3.</div><div class="score-pts">6 <span id="pts3">točk</span></div></div>
+        <div class="score-item"><div class="score-place">4.</div><div class="score-pts">5 <span id="pts4">točk</span></div></div>
+        <div class="score-item"><div class="score-place">5.</div><div class="score-pts">4 <span id="pts5">točk</span></div></div>
+        <div class="score-item"><div class="score-place">6.</div><div class="score-pts">3 <span id="pts6">točk</span></div></div>
+        <div class="score-item"><div class="score-place">7.</div><div class="score-pts">2 <span id="pts7">točk</span></div></div>
+        <div class="score-item"><div class="score-place">8.</div><div class="score-pts">1 <span id="pts8">točka</span></div></div>
+      </div>
+      <p style="margin-top:12px; font-size:13px; color:var(--muted)" id="scoringNote">Končni rezultati so sešteti iz točk vseh dirk. Pri enakem številu točk odloča boljši rezultat zadnje dirke.</p>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">8</div>
+      <div class="reg-title" id="sec8title">Varnost</div>
+    </div>
+    <div class="reg-body" id="sec8body">
+      <ul>
+        <li>Prisotna mora biti zdravstvena služba.</li>
+        <li>Tekmovalci morajo upoštevati navodila sodnikov.</li>
+        <li>V primeru nesreče je obvezno ustaviti in pomagati.</li>
+        <li>Nevarna vožnja ali ogrožanje drugih pomeni diskvalifikacijo.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">9</div>
+      <div class="reg-title" id="sec9title">Kazni</div>
+    </div>
+    <div class="reg-body" id="sec9body">
+      <p><strong>Vrste kazni:</strong> opozorilo, časovni pribitek, diskvalifikacija</p>
+      <p><strong>Razlogi:</strong></p>
+      <ul>
+        <li>Krajšanje proge</li>
+        <li>Neupoštevanje signalizacije</li>
+        <li>Nevarna vožnja</li>
+        <li>Neprimerna oprema</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">10</div>
+      <div class="reg-title" id="sec10title">Prijave in štartnina</div>
+    </div>
+    <div class="reg-body" id="sec10body">
+      <ul>
+        <li>Prijava poteka preko spleta ali na dan dogodka.</li>
+        <li>Štartnina do <strong>28. 4. 2026</strong>: <strong style="color:var(--orange)">60 €</strong></li>
+        <li>Štartnina od <strong>29. 4. – 8. 5. 2026</strong>: <strong style="color:var(--orange)">80 €</strong></li>
+        <li>Število mest omejeno na <strong>48 tekmovalcev</strong>.</li>
+        <li>V štartnino je vključen topel obrok, startna številka in transponder.</li>
+      </ul>
+      <div class="location-box" style="margin-top:12px">
+        📍 <strong>R-motoshop</strong>, Tovarniška cesta 4a, 5270 Ajdovščina<br>
+        🕒 Dvig štartne številke: 10:15 – 11:15
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">11</div>
+      <div class="reg-title" id="sec11title">Varovanje okolja</div>
+    </div>
+    <div class="reg-body" id="sec11body">
+      <ul>
+        <li>Prepovedano je odmetavanje smeti.</li>
+        <li>Vožnja izven označenih poti ni dovoljena.</li>
+        <li>Upoštevati je treba naravno okolje in lokalno skupnost.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">12</div>
+      <div class="reg-title" id="sec12title">Končne določbe</div>
+    </div>
+    <div class="reg-body" id="sec12body">
+      <ul>
+        <li>Tekmovalci s prijavo potrjujejo, da se strinjajo s pravilnikom.</li>
+        <li>Organizator ne odgovarja za poškodbe ali materialno škodo.</li>
+        <li>Dogodek se lahko odpove ali prestavi zaradi vremena ali višje sile.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 13 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">13</div>
+      <div class="reg-title" id="sec13title">Servisni park</div>
+    </div>
+    <div class="reg-body" id="sec13body">
+      <ul>
+        <li>Servisni park se odpre <strong>8. 5. 2026 ob 9:00</strong>.</li>
+        <li>Servisni park bo možno zapustiti šele ob <strong>21:00</strong> po končanem SS1 15. Rally Vipavska dolina.</li>
+      </ul>
+    </div>
+    <div class="location-box">
+      📍 Župančičeva ulica 4, 5270 Ajdovščina<br>
+      <a href="https://maps.app.goo.gl/atXCHP4XcSHekiDA7" target="_blank">45.886425, 13.902813 → Odpri v Google Maps</a>
+    </div>
+    <div class="warning-box" id="sec13warning" style="margin-top:8px">⚠️ Servisnega parka ni možno zapustiti pred 21:00!</div>
+  </div>
+
+  <!-- 14 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">14</div>
+      <div class="reg-title" id="sec14title">Pomoč in dolivanje goriva</div>
+    </div>
+    <div class="reg-body" id="sec14body">
+      <p>Kakršnakoli pomoč in sprejemanje rezervnih delov in orodja je dovoljeno izključno v servisni coni. Neupoštevanje tega pravila: <strong style="color:var(--orange)">+5 minut</strong> kazni.</p>
+    </div>
+  </div>
+
+  <!-- 15 -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-num">15</div>
+      <div class="reg-title" id="sec15title">Podelitev nagrad</div>
+    </div>
+    <div class="reg-body" id="sec15body">
+      <p>Podelitev nagrad bo potekala ob <strong>22:00</strong> na avtobusni postaji pred trgovino Bartog, po končanem SS1 15. Rally Vipavska dolina Leone.</p>
+    </div>
+    <div class="location-box">
+      📍 Župančičeva ulica 8, 5270 Ajdovščina<br>
+      <a href="https://maps.app.goo.gl/iZAJzDyRH6ZRYnrm6" target="_blank">45.886581, 13.900756 → Odpri v Google Maps</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-inner">
+    <p><strong>Avto moto društvo Rally Raid Team Vipavska dolina</strong></p>
+    <p id="presidentLabel">Predsednik: Rok Jerkič</p>
+    <p style="margin-top:8px"><a href="mailto:info@amdrrtvipavskadolina.si" style="color:var(--orange); text-decoration:none">info@amdrrtvipavskadolina.si</a></p>
+    <a href="/" class="register-btn" id="registerBtn">Prijavi se →</a>
+  </div>
+</div>
+
+<script>
+const t = {
+  sl: {
+    pageTitle: "Pravilnik – Vipavska dolina EnduroCross Challenge",
+    backLink: "← Nazaj na prijavnico",
+    eventLabel: "Pravilnik 2026",
+    dateLabel: "DATUM", orgLabel: "ORGANIZATOR",
+    sec1title: "Splošne določbe",
+    sec1body: `<p>Ta pravilnik določa pogoje za udeležbo, pravila tekmovanja in varnostne zahteve za enduro cross dirko, ki se bo organizirala v Ajdovščini dne <strong>8. 5. 2026</strong>.</p><p>Organizator si pridržuje pravico do sprememb pravilnika.</p>`,
+    sec2title: "Pogoji za udeležbo",
+    sec2body: `<ul><li>Tekmovalci morajo biti stari najmanj <strong>16 let</strong>.</li><li>Mlajši od 18 let potrebujejo pisno soglasje staršev ali skrbnikov.</li><li>Obvezna je podpisana izjava o odgovornosti.</li><li>Vsak tekmovalec sodeluje na lastno odgovornost.</li></ul>`,
+    sec3title: "Kategorije",
+    catBronzeDesc: "Rekreativni vozniki brez ali z malo tekmovalnih izkušenj (16 tekmovalcev)<br><br>Osnovna krožna proga",
+    catSilverDesc: "Vozniki s tekmovalnimi izkušnjami na zahtevnejših terenih (16 tekmovalcev)<br><br>Osnovna proga + en zahtevnejši odsek",
+    catGoldDesc: "Vozniki z izkušnjami z zahtevnejših mednarodnih tekmovanj (16 tekmovalcev)<br><br>Trasa Silver + dva dodatna zahtevna odseka",
+    sec4title: "Motorji in oprema",
+    sec4body: `<p>Dovoljeni so enduro in cross motocikli. Motor mora biti tehnično brezhiben.</p><p><strong>Obvezna oprema:</strong></p><ul><li>Čelada</li><li>Zaščitna očala</li><li>Rokavice</li><li>Zaščita za kolena in komolce</li><li>Zaščitni jopič ali "body armor"</li><li>Motoristični škornji</li></ul>`,
+    sec4warning: "⚠️ Brez ustrezne opreme nastop ni dovoljen",
+    sec5title: "Proga",
+    sec5body: `<p>Proga je označena s trakovi, zastavicami ali tablami. Vključuje naravne ovire (korenine, kamenje, klanci) in umetne ovire (hlodi, gume, skoki).</p><p>Prepovedano je zapuščanje označene trase.</p>`,
+    sec6title: "Potek dirke",
+    schedTimeLabel: "Čas", schedEventLabel: "Program",
+    sch1: "Prijave in ogled trase", sch2: "Briefing",
+    sch3: "🥉 Trening Bronze (20 min)", sch4: "🥈 Trening Silver (20 min)", sch5: "🥇 Trening Gold (20 min)",
+    sch6: "Kvalifikacije – 1. vožnja", sch7: "Kvalifikacije – 2. vožnja",
+    sch8: "🥉 Bronze – 1. dirka", sch9: "🥈 Silver – 1. dirka", sch10: "🥇 Gold – 1. dirka",
+    sch11: "🥉 Bronze – 2. dirka", sch12: "🥈 Silver – 2. dirka", sch13: "🥇 Gold – 2. dirka",
+    sch14: "🏆 Podelitev nagrad (po SS1 Rally Vipavska dolina)",
+    raceDuration: "Vsaka dirka traja <strong>4 minute + en krog</strong>. Start: 2 vrsti po 6 tekmovalcev, motorji ugasnjeni, start s strelom.",
+    sec7title: "Točkovanje",
+    pts: "točk", pts2: "točk", pts3: "točk", pts4: "točk", pts5: "točk", pts6: "točk", pts7: "točk", pts8: "točka",
+    scoringNote: "Končni rezultati so sešteti iz točk vseh dirk. Pri enakem številu točk odloča boljši rezultat zadnje dirke.",
+    sec8title: "Varnost",
+    sec8body: `<ul><li>Prisotna mora biti zdravstvena služba.</li><li>Tekmovalci morajo upoštevati navodila sodnikov.</li><li>V primeru nesreče je obvezno ustaviti in pomagati.</li><li>Nevarna vožnja ali ogrožanje drugih pomeni diskvalifikacijo.</li></ul>`,
+    sec9title: "Kazni",
+    sec9body: `<p><strong>Vrste kazni:</strong> opozorilo, časovni pribitek, diskvalifikacija</p><p><strong>Razlogi:</strong></p><ul><li>Krajšanje proge</li><li>Neupoštevanje signalizacije</li><li>Nevarna vožnja</li><li>Neprimerna oprema</li></ul>`,
+    sec10title: "Prijave in štartnina",
+    sec10body: `<ul><li>Prijava poteka preko spleta ali na dan dogodka.</li><li>Štartnina do <strong>28. 4. 2026</strong>: <strong style="color:var(--orange)">60 €</strong></li><li>Štartnina od <strong>29. 4. – 8. 5. 2026</strong>: <strong style="color:var(--orange)">80 €</strong></li><li>Število mest omejeno na <strong>48 tekmovalcev</strong>.</li><li>V štartnino je vključen topel obrok, startna številka in transponder.</li></ul>`,
+    sec11title: "Varovanje okolja",
+    sec11body: `<ul><li>Prepovedano je odmetavanje smeti.</li><li>Vožnja izven označenih poti ni dovoljena.</li><li>Upoštevati je treba naravno okolje in lokalno skupnost.</li></ul>`,
+    sec12title: "Končne določbe",
+    sec12body: `<ul><li>Tekmovalci s prijavo potrjujejo, da se strinjajo s pravilnikom.</li><li>Organizator ne odgovarja za poškodbe ali materialno škodo.</li><li>Dogodek se lahko odpove ali prestavi zaradi vremena ali višje sile.</li></ul>`,
+    sec13title: "Servisni park",
+    sec13body: `<ul><li>Servisni park se odpre <strong>8. 5. 2026 ob 9:00</strong>.</li><li>Servisni park bo možno zapustiti šele ob <strong>21:00</strong> po končanem SS1 15. Rally Vipavska dolina.</li></ul>`,
+    sec13warning: "⚠️ Servisnega parka ni možno zapustiti pred 21:00!",
+    sec14title: "Pomoč in dolivanje goriva",
+    sec14body: `<p>Kakršnakoli pomoč in sprejemanje rezervnih delov je dovoljeno izključno v servisni coni. Neupoštevanje: <strong style="color:var(--orange)">+5 minut</strong> kazni.</p>`,
+    sec15title: "Podelitev nagrad",
+    sec15body: `<p>Podelitev nagrad bo potekala ob <strong>22:00</strong> na avtobusni postaji pred trgovino Bartog, po končanem SS1 15. Rally Vipavska dolina Leone.</p>`,
+    presidentLabel: "Predsednik: Rok Jerkič",
+    registerBtn: "Prijavi se →",
+  },
+  en: {
+    pageTitle: "Regulations – Vipavska dolina EnduroCross Challenge",
+    backLink: "← Back to registration",
+    eventLabel: "Regulations 2026",
+    dateLabel: "DATE", orgLabel: "ORGANIZER",
+    sec1title: "General Provisions",
+    sec1body: `<p>These regulations define the conditions for participation, competition rules, and safety requirements for the EnduroCross race in Ajdovščina on <strong>May 8, 2026</strong>.</p><p>The organizer reserves the right to amend these regulations for safety or organizational reasons.</p>`,
+    sec2title: "Conditions for Participation",
+    sec2body: `<ul><li>Participants must be at least <strong>16 years old</strong>.</li><li>Riders under 18 must provide written consent from a parent or legal guardian.</li><li>A signed liability waiver is mandatory.</li><li>All participants compete at their own risk.</li></ul>`,
+    sec3title: "Categories",
+    catBronzeDesc: "Recreational riders with little or no competition experience (16 riders)<br><br>Basic loop course",
+    catSilverDesc: "Riders with experience on more demanding terrain (16 riders)<br><br>Basic course + one advanced section",
+    catGoldDesc: "Riders with experience in demanding international competitions (16 riders)<br><br>Silver course + two additional advanced sections",
+    sec4title: "Motorcycles and Equipment",
+    sec4body: `<p>Enduro and motocross motorcycles are allowed. Motorcycles must be in proper technical condition.</p><p><strong>Mandatory equipment:</strong></p><ul><li>Helmet</li><li>Goggles</li><li>Gloves</li><li>Knee and elbow protection</li><li>Protective jacket or body armor</li><li>Motocross boots</li></ul>`,
+    sec4warning: "⚠️ Participation is not allowed without proper equipment",
+    sec5title: "Course",
+    sec5body: `<p>The course will be marked with tape, flags, or signs. It may include natural obstacles (roots, rocks, hills) and artificial obstacles (logs, tires, jumps).</p><p>Leaving the marked course is strictly prohibited.</p>`,
+    sec6title: "Race Format",
+    schedTimeLabel: "Time", schedEventLabel: "Schedule",
+    sch1: "Registration and track inspection", sch2: "Briefing",
+    sch3: "🥉 Bronze Practice (20 min)", sch4: "🥈 Silver Practice (20 min)", sch5: "🥇 Gold Practice (20 min)",
+    sch6: "Qualifying – Run 1", sch7: "Qualifying – Run 2",
+    sch8: "🥉 Bronze – Race 1", sch9: "🥈 Silver – Race 1", sch10: "🥇 Gold – Race 1",
+    sch11: "🥉 Bronze – Race 2", sch12: "🥈 Silver – Race 2", sch13: "🥇 Gold – Race 2",
+    sch14: "🏆 Prize Giving (after SS1 Rally Vipavska dolina)",
+    raceDuration: "Race duration: <strong>4 minutes + 1 lap</strong>. Start: 2 rows of 6 riders, engines off, gunshot start.",
+    sec7title: "Scoring",
+    pts: "pts", pts2: "pts", pts3: "pts", pts4: "pts", pts5: "pts", pts6: "pts", pts7: "pts", pts8: "pt",
+    scoringNote: "Final results are based on total points from all races. In case of a tie, the result of the last race decides.",
+    sec8title: "Safety",
+    sec8body: `<ul><li>Medical service must be present.</li><li>Riders must follow marshals' instructions.</li><li>In case of an accident, it is mandatory to stop and assist if necessary.</li><li>Dangerous riding = disqualification.</li></ul>`,
+    sec9title: "Penalties",
+    sec9body: `<p><strong>Types:</strong> warning, time penalty, disqualification</p><p><strong>Reasons:</strong></p><ul><li>Cutting the course</li><li>Ignoring signals</li><li>Dangerous riding</li><li>Improper equipment</li></ul>`,
+    sec10title: "Registration and Entry Fee",
+    sec10body: `<ul><li>Registration via email or on the day of the event.</li><li>Entry fee until <strong>April 28, 2026</strong>: <strong style="color:var(--orange)">€60</strong></li><li>Entry fee from <strong>April 29 – May 8, 2026</strong>: <strong style="color:var(--orange)">€80</strong></li><li>Maximum <strong>48 riders</strong>.</li><li>Included: warm meal, start number, timing transponder.</li></ul>`,
+    sec11title: "Environmental Protection",
+    sec11body: `<ul><li>Littering is prohibited.</li><li>Riding outside designated areas is not allowed.</li><li>Respect nature and the local community.</li></ul>`,
+    sec12title: "Final Provisions",
+    sec12body: `<ul><li>By registering, riders agree to these regulations.</li><li>The organizer is not liable for injuries or material damage.</li><li>The event may be canceled or postponed due to weather or force majeure.</li></ul>`,
+    sec13title: "Service Park",
+    sec13body: `<ul><li>Service park opens: <strong>May 8, 2026 at 09:00</strong>.</li><li>Exit allowed only after <strong>21:00</strong>, after SS1 of Rally Vipavska dolina.</li></ul>`,
+    sec13warning: "⚠️ The service park may only be exited after 21:00!",
+    sec14title: "Assistance and Refueling",
+    sec14body: `<p>Assistance is allowed only in the designated service area. Violation = <strong style="color:var(--orange)">+5 minutes</strong> penalty.</p>`,
+    sec15title: "Prize Giving",
+    sec15body: `<p>Prize giving ceremony at <strong>22:00</strong> at the bus station in front of Bartog, after SS1 of Rally Vipavska dolina Leone.</p>`,
+    presidentLabel: "President: Rok Jerkič",
+    registerBtn: "Register now →",
+  },
+  it: {
+    pageTitle: "Regolamento – Vipavska dolina EnduroCross Challenge",
+    backLink: "← Torna all'iscrizione",
+    eventLabel: "Regolamento 2026",
+    dateLabel: "DATA", orgLabel: "ORGANIZZATORE",
+    sec1title: "Disposizioni Generali",
+    sec1body: `<p>Il presente regolamento stabilisce le condizioni di partecipazione, le regole della competizione e i requisiti di sicurezza per la gara EnduroCross ad Ajdovščina il <strong>8 maggio 2026</strong>.</p><p>L'organizzatore si riserva il diritto di modificare il regolamento per motivi di sicurezza o organizzativi.</p>`,
+    sec2title: "Condizioni di Partecipazione",
+    sec2body: `<ul><li>I partecipanti devono avere almeno <strong>16 anni</strong>.</li><li>I minori di 18 anni devono presentare un'autorizzazione scritta dei genitori o tutori.</li><li>È obbligatoria la firma della dichiarazione di responsabilità.</li><li>Ogni partecipante gareggia a proprio rischio.</li></ul>`,
+    sec3title: "Categorie",
+    catBronzeDesc: "Piloti amatoriali con poca o nessuna esperienza agonistica (16 piloti)<br><br>Circuito base",
+    catSilverDesc: "Piloti con esperienza su terreni più impegnativi (16 piloti)<br><br>Circuito base + una sezione più impegnativa",
+    catGoldDesc: "Piloti con esperienza in competizioni internazionali impegnative (16 piloti)<br><br>Percorso Silver + due sezioni aggiuntive",
+    sec4title: "Motocicli ed Equipaggiamento",
+    sec4body: `<p>Sono ammessi motocicli da enduro e motocross. Il motociclo deve essere tecnicamente idoneo.</p><p><strong>Equipaggiamento obbligatorio:</strong></p><ul><li>Casco</li><li>Occhiali protettivi</li><li>Guanti</li><li>Protezioni per ginocchia e gomiti</li><li>Giacca protettiva o body armor</li><li>Stivali da motocross</li></ul>`,
+    sec4warning: "⚠️ La partecipazione non è consentita senza equipaggiamento adeguato",
+    sec5title: "Percorso",
+    sec5body: `<p>Il percorso sarà segnalato con nastri, bandiere o cartelli. Può includere ostacoli naturali (radici, pietre, salite) e ostacoli artificiali (tronchi, pneumatici, salti).</p><p>È vietato uscire dal percorso segnalato.</p>`,
+    sec6title: "Svolgimento della Gara",
+    schedTimeLabel: "Orario", schedEventLabel: "Programma",
+    sch1: "Iscrizioni e ricognizione del percorso", sch2: "Briefing",
+    sch3: "🥉 Allenamento Bronze (20 min)", sch4: "🥈 Allenamento Silver (20 min)", sch5: "🥇 Allenamento Gold (20 min)",
+    sch6: "Qualifiche – 1ª manche", sch7: "Qualifiche – 2ª manche",
+    sch8: "🥉 Bronze – Gara 1", sch9: "🥈 Silver – Gara 1", sch10: "🥇 Gold – Gara 1",
+    sch11: "🥉 Bronze – Gara 2", sch12: "🥈 Silver – Gara 2", sch13: "🥇 Gold – Gara 2",
+    sch14: "🏆 Premiazione (dopo SS1 Rally Vipavska dolina)",
+    raceDuration: "Durata gara: <strong>4 minuti + 1 giro</strong>. Partenza: 2 file da 6 piloti, motori spenti, partenza allo sparo.",
+    sec7title: "Punteggio",
+    pts: "punti", pts2: "punti", pts3: "punti", pts4: "punti", pts5: "punti", pts6: "punti", pts7: "punti", pts8: "punto",
+    scoringNote: "Classifica finale: somma dei punti di tutte le gare. In caso di parità decide l'ultima gara.",
+    sec8title: "Sicurezza",
+    sec8body: `<ul><li>Deve essere presente un servizio medico.</li><li>I piloti devono seguire le indicazioni dei commissari.</li><li>In caso di incidente è obbligatorio fermarsi e prestare aiuto se necessario.</li><li>Guida pericolosa = squalifica.</li></ul>`,
+    sec9title: "Penalità",
+    sec9body: `<p><strong>Tipi:</strong> ammonizione, penalità di tempo, squalifica</p><p><strong>Motivi:</strong></p><ul><li>Taglio del percorso</li><li>Mancato rispetto della segnaletica</li><li>Guida pericolosa</li><li>Equipaggiamento non idoneo</li></ul>`,
+    sec10title: "Iscrizioni e Quota",
+    sec10body: `<ul><li>Iscrizione via email o il giorno dell'evento.</li><li>Quota fino al <strong>28/04/2026</strong>: <strong style="color:var(--orange)">€60</strong></li><li>Quota dal <strong>29/04 al 08/05/2026</strong>: <strong style="color:var(--orange)">€80</strong></li><li>Massimo <strong>48 partecipanti</strong>.</li><li>Incluso: pasto caldo, numero di gara, transponder.</li></ul>`,
+    sec11title: "Tutela Ambientale",
+    sec11body: `<ul><li>Vietato gettare rifiuti.</li><li>Vietato uscire dal percorso.</li><li>Rispetto per l'ambiente e la comunità locale.</li></ul>`,
+    sec12title: "Disposizioni Finali",
+    sec12body: `<ul><li>L'iscrizione implica accettazione del regolamento.</li><li>L'organizzatore non è responsabile per danni o infortuni.</li><li>L'evento può essere annullato o rinviato per cause di forza maggiore.</li></ul>`,
+    sec13title: "Parco Assistenza",
+    sec13body: `<ul><li>Apertura: <strong>08/05/2026 alle 09:00</strong>.</li><li>Uscita consentita solo dopo le <strong>21:00</strong>, dopo SS1 del Rally Vipavska dolina.</li></ul>`,
+    sec13warning: "⚠️ Il parco assistenza può essere lasciato solo dopo le 21:00!",
+    sec14title: "Assistenza e Rifornimento",
+    sec14body: `<p>Assistenza consentita solo nell'area assistenza. Violazione = <strong style="color:var(--orange)">+5 minuti</strong> di penalità.</p>`,
+    sec15title: "Premiazione",
+    sec15body: `<p>Premiazione alle <strong>22:00</strong> alla stazione degli autobus davanti a Bartog, dopo SS1 del Rally Vipavska dolina Leone.</p>`,
+    presidentLabel: "Presidente: Rok Jerkič",
+    registerBtn: "Iscriviti →",
+  }
+};
+
+function switchLang(lang) {
+  const l = t[lang];
+  document.documentElement.lang = lang;
+  document.title = l.pageTitle;
+
+  const ids = ['backLink','eventLabel','dateLabel','orgLabel',
+    'sec1title','sec1body','sec2title','sec2body','sec3title',
+    'catBronzeDesc','catSilverDesc','catGoldDesc',
+    'sec4title','sec4body','sec4warning','sec5title','sec5body',
+    'sec6title','schedTimeLabel','schedEventLabel',
+    'sch1','sch2','sch3','sch4','sch5','sch6','sch7','sch8','sch9','sch10','sch11','sch12','sch13','sch14',
+    'raceDuration','sec7title','pts','pts2','pts3','pts4','pts5','pts6','pts7','pts8','scoringNote',
+    'sec8title','sec8body','sec9title','sec9body','sec10title','sec10body',
+    'sec11title','sec11body','sec12title','sec12body',
+    'sec13title','sec13body','sec13warning','sec14title','sec14body',
+    'sec15title','sec15body','presidentLabel','registerBtn'];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && l[id] !== undefined) el.innerHTML = l[id];
+  });
+}
+
+window._currentLang = 'sl';
+</script>
+</body>
+</html>
