@@ -108,64 +108,6 @@
     color: var(--light);
   }
 
-  /* URGENCY BAR */
-  .urgency-bar {
-    background: #0a0a0a;
-    border-bottom: 1px solid #222;
-    padding: 10px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .urgency-inner {
-    max-width: 860px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: nowrap;
-  }
-  .urgency-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.5px;
-    color: var(--light);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .urgency-text span { color: var(--orange); font-size: 18px; font-weight: 900; }
-  .urgency-track { flex: 1; height: 6px; background: #2a2a2a; overflow: hidden; min-width: 60px; }
-  .urgency-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #C43D00, #E8500A);
-    width: 0%;
-    transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-  }
-  .urgency-fill::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 0;
-    width: 3px; height: 100%;
-    background: #fff;
-    opacity: 0.7;
-    animation: blinkBar 1s ease-in-out infinite;
-  }
-  @keyframes blinkBar { 0%,100%{opacity:0.7} 50%{opacity:0.1} }
-  .urgency-badge {
-    background: var(--orange);
-    color: #fff;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    white-space: nowrap;
-    animation: blinkBadge 2s ease-in-out infinite;
-  }
-  @keyframes blinkBadge { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
   /* PRIJAVA INFO */
   .info-bar {
@@ -573,15 +515,68 @@
     .grid-2, .grid-3, .kategory-grid, .price-grid { grid-template-columns: 1fr; }
     .info-bar-inner { gap: 16px; }
   }
+
+  /* LANGUAGE SWITCHER */
+  .lang-bar {
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 8px 40px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .lang-bar-inner {
+    max-width: 860px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lang-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #555;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  .lang-select {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: var(--light);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 5px 28px 5px 10px;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23E8500A' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: border-color 0.2s;
+  }
+
+  .lang-select:focus { border-color: var(--orange); }
+
 </style>
 </head>
 <body>
 
-<!-- URGENCY BAR -->
-<div class="urgency-bar">
-  <div class="urgency-inner">
-    <div class="urgency-text">⚡ Samo še <span id="spotsLeft">8</span> mest!</div>
-    <div class="urgency-track"><div class="urgency-fill" id="urgencyFill"></div></div>
+<!-- LANGUAGE SWITCHER -->
+<div class="lang-bar">
+  <div class="lang-bar-inner">
+    <span class="lang-label">🌐</span>
+    <select class="lang-select" id="langSelect" onchange="switchLang(this.value)">
+      <option value="sl">🇸🇮 Slovenščina</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="it">🇮🇹 Italiano</option>
+    </select>
   </div>
 </div>
 
@@ -808,24 +803,252 @@
   </div>
 
   <div class="success-msg" id="successMsg">
-    <h3>🏍️ Prijava oddana!</h3>
-    <p>Hvala za prijavo. Organizator vas bo kontaktiral na vaš e-mail naslov.<br>Ne pozabite poravnati prijavnine po zgoraj navedenih podatkih.</p>
+    <h3 id="successTitle">🏍️ Prijava oddana!</h3>
+    <p id="successText">Hvala za prijavo. Organizator vas bo kontaktiral na vaš e-mail naslov.<br>Ne pozabite poravnati prijavnine po zgoraj navedenih podatkih.</p>
   </div>
 
 </form>
 
 <script>
-  // URGENCY BAR INIT
-  const totalSpots = 30;
-  const takenSpots = 22;
-  const freeSpots = totalSpots - takenSpots;
-  const fillPct = (takenSpots / totalSpots) * 100;
 
-  document.getElementById("spotsLeft").textContent = freeSpots;
+  // TRANSLATIONS
+  const translations = {
+    sl: {
+      title: "Prijavnica – Vipavska dolina EnduroCross Challenge",
+      eventLabel: "Prijavnica 2026",
+      organizerLabel: "ORGANIZATOR",
+      contactLabel: "KONTAKT",
+      infoEarly: "⏱ <strong>Zgodnja prijava (do 28. 4.):</strong> 60 €",
+      infoRegular: "📅 <strong>Redna prijava (29. 4. – 8. 5.):</strong> 80 €",
+      sec1title: "Osebni podatki tekmovalca",
+      fullname: "Ime in priimek", fullnamePh: "npr. Janez Novak",
+      dob: "Datum rojstva",
+      phone: "Telefon", phonePh: "+386 41 123 456",
+      email: "E-mail",
+      address: "Naslov", addressPh: "Ulica in hišna številka",
+      postal: "Poštna številka in kraj", postalPh: "1000 Ljubljana",
+      country: "Država", countryPh: "Slovenija",
+      club: "Klub / društvo", clubPh: "Naziv kluba ali društva",
+      sec2title: "Kategorija",
+      cat1: "Začetniki", cat2: "Izkušeni", cat3: "Eksperti",
+      sec3title: "Podatki o motorju",
+      motorMake: "Znamka in model", motorMakePh: "npr. KTM EXC 300",
+      motorCcm: "Prostornina (ccm)", motorCcmPh: "npr. 300",
+      sec4title: "Kontakt v nujnem primeru",
+      sec5title: "Izjava tekmovalca",
+      declaIntro: "S podpisom potrjujem, da:",
+      decla1: "• sodelujem na lastno odgovornost",
+      decla2: "• sem zdravstveno sposoben za udeležbo",
+      decla3: "• imam ustrezno zaščitno opremo",
+      decla4: "• se strinjam s pravili organizatorja",
+      decla5: "• dovoljujem uporabo fotografij in video posnetkov za promocijske namene",
+      declaCheck: "Potrjujem in se strinjam z zgornjimi pogoji udeležbe.",
+      sec6title: "Opis za napovedovalca",
+      descLabel: "Kratka predstavitev (dirkaška pot, izkušnje, dosežki, zanimivosti...)",
+      descPh: "Na kratko opiši svojo dirkaško pot, izkušnje, dosežke in zanimivosti o sebi...",
+      sec7title: "Prijavnina",
+      price1period: "Do 28. 4. 2026", price2period: "29. 4. – 8. 5. 2026",
+      bankRecipient: "Prejemnik", bankAddress: "Naslov", bankPurpose: "Namen",
+      bankPurposeVal: "Ime in priimek – Štartnina", bankRef: "Sklic",
+      submitBtn: "Oddaj prijavo →", submitNote: "Po oddaji vas bomo kontaktirali na vaš e-mail naslov.",
+      successTitle: "🏍️ Prijava oddana!",
+      successText: "Hvala za prijavo. Organizator vas bo kontaktiral na vaš e-mail naslov.<br>Ne pozabite poravnati prijavnine po zgoraj navedenih podatkih.",
+      sending: "Pošiljam...", submitted: "Prijava oddana ✓",
+      errRetry: "Napaka — poskusi znova",
+    },
+    en: {
+      title: "Registration – Vipavska dolina EnduroCross Challenge",
+      eventLabel: "Registration 2026",
+      organizerLabel: "ORGANIZER",
+      contactLabel: "CONTACT",
+      infoEarly: "⏱ <strong>Early registration (until Apr 28):</strong> €60",
+      infoRegular: "📅 <strong>Regular registration (Apr 29 – May 8):</strong> €80",
+      sec1title: "Competitor Personal Data",
+      fullname: "Full Name", fullnamePh: "e.g. John Smith",
+      dob: "Date of Birth",
+      phone: "Phone", phonePh: "+386 41 123 456",
+      email: "E-mail",
+      address: "Address", addressPh: "Street and house number",
+      postal: "Postal Code and City", postalPh: "1000 Ljubljana",
+      country: "Country", countryPh: "Slovenia",
+      club: "Club / Association", clubPh: "Name of club or association",
+      sec2title: "Category",
+      cat1: "Beginners", cat2: "Experienced", cat3: "Experts",
+      sec3title: "Motorcycle Details",
+      motorMake: "Make and Model", motorMakePh: "e.g. KTM EXC 300",
+      motorCcm: "Engine Size (cc)", motorCcmPh: "e.g. 300",
+      sec4title: "Emergency Contact",
+      sec5title: "Competitor Declaration",
+      declaIntro: "By submitting I confirm that:",
+      decla1: "• I participate at my own risk",
+      decla2: "• I am physically fit to participate",
+      decla3: "• I have appropriate protective equipment",
+      decla4: "• I agree to the organizer's rules",
+      decla5: "• I allow the use of photos and videos for promotional purposes",
+      declaCheck: "I confirm and agree to the above participation terms.",
+      sec6title: "Description for the Announcer",
+      descLabel: "Brief introduction (racing background, experience, achievements, fun facts...)",
+      descPh: "Briefly describe your racing background, experience, achievements and fun facts...",
+      sec7title: "Registration Fee",
+      price1period: "Until Apr 28, 2026", price2period: "Apr 29 – May 8, 2026",
+      bankRecipient: "Recipient", bankAddress: "Address", bankPurpose: "Purpose",
+      bankPurposeVal: "Full Name – Entry Fee", bankRef: "Reference",
+      submitBtn: "Submit Registration →", submitNote: "We will contact you at your email address after submission.",
+      successTitle: "🏍️ Registration Submitted!",
+      successText: "Thank you for registering. The organizer will contact you at your email address.<br>Please remember to pay the registration fee using the bank details above.",
+      sending: "Sending...", submitted: "Registration submitted ✓",
+      errRetry: "Error — please try again",
+    },
+    it: {
+      title: "Modulo di iscrizione – Vipavska dolina EnduroCross Challenge",
+      eventLabel: "Iscrizione 2026",
+      organizerLabel: "ORGANIZZATORE",
+      contactLabel: "CONTATTO",
+      infoEarly: "⏱ <strong>Iscrizione anticipata (fino al 28 apr):</strong> €60",
+      infoRegular: "📅 <strong>Iscrizione regolare (29 apr – 8 mag):</strong> €80",
+      sec1title: "Dati personali del concorrente",
+      fullname: "Nome e cognome", fullnamePh: "es. Mario Rossi",
+      dob: "Data di nascita",
+      phone: "Telefono", phonePh: "+386 41 123 456",
+      email: "E-mail",
+      address: "Indirizzo", addressPh: "Via e numero civico",
+      postal: "CAP e città", postalPh: "1000 Ljubljana",
+      country: "Paese", countryPh: "Slovenia",
+      club: "Club / Associazione", clubPh: "Nome del club o associazione",
+      sec2title: "Categoria",
+      cat1: "Principianti", cat2: "Esperti", cat3: "Professionisti",
+      sec3title: "Dati della moto",
+      motorMake: "Marca e modello", motorMakePh: "es. KTM EXC 300",
+      motorCcm: "Cilindrata (cc)", motorCcmPh: "es. 300",
+      sec4title: "Contatto di emergenza",
+      sec5title: "Dichiarazione del concorrente",
+      declaIntro: "Con l'invio confermo che:",
+      decla1: "• partecipo a mio rischio e pericolo",
+      decla2: "• sono fisicamente idoneo a partecipare",
+      decla3: "• dispongo di adeguata attrezzatura protettiva",
+      decla4: "• accetto il regolamento dell'organizzatore",
+      decla5: "• autorizzo l'uso di foto e video a scopo promozionale",
+      declaCheck: "Confermo e accetto le condizioni di partecipazione sopra indicate.",
+      sec6title: "Descrizione per lo speaker",
+      descLabel: "Breve presentazione (carriera agonistica, esperienze, risultati, curiosità...)",
+      descPh: "Descrivi brevemente la tua carriera agonistica, esperienze, risultati e curiosità...",
+      sec7title: "Quota di iscrizione",
+      price1period: "Fino al 28 apr 2026", price2period: "29 apr – 8 mag 2026",
+      bankRecipient: "Beneficiario", bankAddress: "Indirizzo", bankPurpose: "Causale",
+      bankPurposeVal: "Nome e cognome – Quota iscrizione", bankRef: "Riferimento",
+      submitBtn: "Invia iscrizione →", submitNote: "Ti contatteremo al tuo indirizzo email dopo l'invio.",
+      successTitle: "🏍️ Iscrizione inviata!",
+      successText: "Grazie per l'iscrizione. L'organizzatore ti contatterà al tuo indirizzo email.<br>Ricordati di pagare la quota di iscrizione utilizzando i dati bancari indicati sopra.",
+      sending: "Invio in corso...", submitted: "Iscrizione inviata ✓",
+      errRetry: "Errore — riprova",
+    }
+  };
 
-  setTimeout(() => {
-    document.getElementById("urgencyFill").style.width = fillPct + "%";
-  }, 500);
+  function switchLang(lang) {
+    const t = translations[lang];
+    document.title = t.title;
+    document.documentElement.lang = lang;
+
+    // Event label
+    document.querySelector('.event-label').textContent = t.eventLabel;
+
+    // Header meta labels
+    const metaLabels = document.querySelectorAll('.header-meta-item .label');
+    metaLabels[0].textContent = t.organizerLabel;
+    metaLabels[1].textContent = t.contactLabel;
+
+    // Info bar
+    const infoParts = document.querySelectorAll('.info-bar-inner p');
+    infoParts[0].innerHTML = t.infoEarly;
+    infoParts[1].innerHTML = t.infoRegular;
+
+    // Section titles
+    const secTitles = document.querySelectorAll('.section-title');
+    secTitles[0].textContent = t.sec1title;
+    secTitles[1].textContent = t.sec2title;
+    secTitles[2].textContent = t.sec3title;
+    secTitles[3].textContent = t.sec4title;
+    secTitles[4].textContent = t.sec5title;
+    secTitles[5].textContent = t.sec6title;
+    secTitles[6].textContent = t.sec7title;
+
+    // Form fields - labels and placeholders
+    const labels = document.querySelectorAll('.field label');
+    const inputs = document.querySelectorAll('.field input, .field textarea');
+
+    // Helper
+    function setLabel(el, text) {
+      const req = el.querySelector('.req');
+      el.childNodes[0].textContent = text + (req ? ' ' : '');
+    }
+
+    setLabel(labels[0], t.fullname);
+    inputs[1].placeholder = t.fullnamePh;
+    setLabel(labels[1], t.dob);
+    setLabel(labels[2], t.phone);
+    inputs[3].placeholder = t.phonePh;
+    setLabel(labels[3], t.email);
+    setLabel(labels[4], t.address);
+    inputs[5].placeholder = t.addressPh;
+    setLabel(labels[5], t.postal);
+    inputs[6].placeholder = t.postalPh;
+    setLabel(labels[6], t.country);
+    inputs[7].placeholder = t.countryPh;
+    setLabel(labels[7], t.club);
+    inputs[8].placeholder = t.clubPh;
+
+    // Categories
+    const katDescs = document.querySelectorAll('.kat-desc');
+    katDescs[0].textContent = t.cat1;
+    katDescs[1].textContent = t.cat2;
+    katDescs[2].textContent = t.cat3;
+
+    // Motor
+    setLabel(labels[8], t.motorMake);
+    inputs[9].placeholder = t.motorMakePh;
+    setLabel(labels[9], t.motorCcm);
+    inputs[10].placeholder = t.motorCcmPh;
+
+    // Emergency - sec4 labels
+    const sec4labels = document.querySelectorAll('.section:nth-child(4) .field label');
+    if(sec4labels[0]) setLabel(sec4labels[0], t.fullname);
+    if(sec4labels[1]) setLabel(sec4labels[1], t.phone);
+
+    // Declaration
+    const izjavaBox = document.querySelector('.izjava-box');
+    izjavaBox.innerHTML = `<p>${t.declaIntro}</p><p>${t.decla1}</p><p>${t.decla2}</p><p>${t.decla3}</p><p>${t.decla4}</p><p>${t.decla5}</p>`;
+
+    const checkSpan = document.querySelector('.checkbox-row span');
+    checkSpan.innerHTML = t.declaCheck + ' <span class="req">*</span>';
+
+    // Description
+    setLabel(labels[10], t.descLabel);
+    document.querySelector('textarea[name="opis"]').placeholder = t.descPh;
+
+    // Pricing periods
+    const periods = document.querySelectorAll('.price-period');
+    periods[0].textContent = t.price1period;
+    periods[1].textContent = t.price2period;
+
+    // Bank details
+    const bankLabels = document.querySelectorAll('.bank-label');
+    bankLabels[0].textContent = t.bankRecipient;
+    bankLabels[1].textContent = t.bankAddress;
+    bankLabels[2].textContent = t.bankPurpose;
+    const bankVals = document.querySelectorAll('.bank-value');
+    bankVals[2].textContent = t.bankPurposeVal;
+    bankLabels[3].textContent = t.bankRef;
+
+    // Submit
+    document.querySelector('.submit-btn').textContent = t.submitBtn;
+    document.querySelector('.submit-note').textContent = t.submitNote;
+
+    // Save lang
+    window._currentLang = lang;
+  }
+
+  // Init on load
+  window._currentLang = 'sl';
 
   async function submitForm(e) {
     e.preventDefault();
@@ -833,7 +1056,7 @@
     const success = document.getElementById('successMsg');
     const btn = form.querySelector('.submit-btn');
 
-    btn.textContent = 'Pošiljam...';
+    btn.textContent = translations[window._currentLang || 'sl'].sending;
     btn.disabled = true;
 
     const formData = new FormData(form);
@@ -847,19 +1070,24 @@
       const data = await response.json();
 
       if (data.success) {
+        const t = translations[window._currentLang || 'sl'];
+        document.getElementById('successTitle').textContent = t.successTitle;
+        document.getElementById('successText').innerHTML = t.successText;
         success.style.display = 'block';
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
         form.querySelector('.submit-area').style.opacity = '0.3';
-        btn.textContent = 'Prijava oddana ✓';
+        btn.textContent = t.submitted;
       } else {
-        btn.textContent = 'Napaka — poskusi znova';
+        const t = translations[window._currentLang || 'sl'];
+        btn.textContent = t.errRetry;
         btn.disabled = false;
-        alert('Napaka pri pošiljanju. Prosimo poskusite znova.');
+        alert(t.errRetry);
       }
     } catch (err) {
-      btn.textContent = 'Napaka — poskusi znova';
+      const t = translations[window._currentLang || 'sl'];
+      btn.textContent = t.errRetry;
       btn.disabled = false;
-      alert('Napaka pri pošiljanju. Preverite internetno povezavo.');
+      alert(t.errRetry);
     }
   }
 </script>
