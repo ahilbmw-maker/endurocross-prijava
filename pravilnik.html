@@ -1022,24 +1022,12 @@ const redIcon = L.divIcon({
   html: '<div style="background:#40c150;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5)"></div>',
   iconSize: [14,14], iconAnchor: [7,7], className: ''
 });
-const blueIcon = L.divIcon({
-  html: '<div style="background:#3B82F6;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5)"></div>',
-  iconSize: [14,14], iconAnchor: [7,7], className: ''
-});
 const goldIcon = L.divIcon({
   html: '<div style="background:#FFD700;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;font-size:10px">🏆</div>',
   iconSize: [16,16], iconAnchor: [8,8], className: ''
 });
 
-// Start/cilj proge
-L.marker([45.88720, 13.90100], {icon: redIcon})
-  .addTo(map)
-  .bindPopup('<b>🚩 Start / Cilj</b><br>Tovarniška cesta 2–4<br>5270 Ajdovščina');
 
-// Servisni park
-L.marker([45.886425, 13.902813], {icon: blueIcon})
-  .addTo(map)
-  .bindPopup('<b>🔧 Servisni park</b><br>Župančičeva ulica 4<br>Odprtje: 8.5.2026 ob 9:00<br>Izhod: po 21:00');
 
 // Podelitev nagrad
 L.marker([45.886581, 13.900756], {icon: L.divIcon({
