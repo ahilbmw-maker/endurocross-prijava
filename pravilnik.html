@@ -8,8 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --orange: #E8500A;
-    --orange-dark: #C43D00;
+    --orange: #40c150;
+    --orange-dark: #2da83b;
     --dark: #0F0F0F;
     --dark2: #1A1A1A;
     --dark3: #252525;
@@ -89,7 +89,7 @@
     position: absolute;
     top: -80px; right: -80px;
     width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(232,80,10,0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(64,193,80,0.12) 0%, transparent 70%);
     pointer-events: none;
   }
   .header-inner { max-width: 860px; margin: 0 auto; position: relative; }
@@ -242,7 +242,7 @@
     padding: 10px 16px;
     flex: 1;
   }
-  .schedule-row.highlight { background: rgba(232,80,10,0.08); }
+  .schedule-row.highlight { background: rgba(64,193,80,0.08); }
 
   /* SCORING */
   .scoring-grid {
@@ -272,7 +272,7 @@
 
   /* WARNING BOX */
   .warning-box {
-    background: rgba(232,80,10,0.1);
+    background: rgba(64,193,80,0.1);
     border: 1px solid var(--orange);
     border-left: 4px solid var(--orange);
     padding: 16px 20px;
@@ -760,10 +760,8 @@
       <div id="map"></div>
     </div>
     <div class="map-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#E8500A;height:3px;width:24px"></div> <span id="legendTrack">Proga (Bronze osnova)</span></div>
-      <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;height:3px;width:24px"></div> <span id="legendService">Servisna cona / SS1</span></div>
-      <div class="legend-item">🔴 <span id="legendStart">Start/Cilj</span></div>
-      <div class="legend-item">🔵 <span id="legendServicePark">Servisni park</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#40c150;height:3px;width:24px"></div> <span id="legendTrack">Proga (Bronze osnova)</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#40c150;height:10px;width:24px;opacity:0.7"></div> <span id="legendService">Servisna cona</span></div>
       <div class="legend-item">🏆 <span id="legendAwards">Podelitev nagrad</span></div>
     </div>
   </div>
@@ -961,7 +959,7 @@ window._currentLang = 'sl';
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 // Init map centered on Ajdovscina race area
-const map = L.map('map', { zoomControl: true }).setView([45.8865, 13.9025], 17);
+const map = L.map('map', { zoomControl: true }).setView([45.8868, 13.9010], 17);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors',
@@ -992,7 +990,7 @@ const progaCoords = [
 ];
 
 L.polyline(progaCoords, {
-  color: '#E8500A',
+  color: '#40c150',
   weight: 4,
   opacity: 0.9,
   dashArray: null
@@ -1023,7 +1021,7 @@ L.polyline(servisCoords, {
 
 // MARKERS
 const redIcon = L.divIcon({
-  html: '<div style="background:#E8500A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5)"></div>',
+  html: '<div style="background:#40c150;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5)"></div>',
   iconSize: [14,14], iconAnchor: [7,7], className: ''
 });
 const blueIcon = L.divIcon({
