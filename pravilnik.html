@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pravilnik – Vipavska dolina EnduroCross Challenge</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -350,6 +351,39 @@
   }
   .register-btn:hover { background: var(--orange-dark); transform: translateY(-2px); }
 
+
+  /* MAP */
+  .map-section {
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease 0.8s forwards;
+  }
+  .map-container {
+    height: 420px;
+    border: 1px solid var(--border);
+    margin-top: 16px;
+    position: relative;
+  }
+  #map { height: 100%; width: 100%; }
+  .map-legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 16px; height: 4px;
+    border-radius: 2px;
+  }
+
   @media (max-width: 640px) {
     .lang-bar { padding: 8px 20px; }
     .header { padding: 36px 20px 30px; }
@@ -360,6 +394,7 @@
     .schedule-time { min-width: 110px; }
   }
 </style>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -714,6 +749,25 @@
 
 </div>
 
+
+  <!-- MAP SECTION -->
+  <div class="map-section">
+    <div class="reg-section-header">
+      <div class="reg-num">📍</div>
+      <div class="reg-title" id="mapTitle">Zemljevid lokacij</div>
+    </div>
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
+    <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#E8500A;height:3px;width:24px"></div> <span id="legendTrack">Proga (Bronze osnova)</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;height:3px;width:24px"></div> <span id="legendService">Servisna cona / SS1</span></div>
+      <div class="legend-item">🔴 <span id="legendStart">Start/Cilj</span></div>
+      <div class="legend-item">🔵 <span id="legendServicePark">Servisni park</span></div>
+      <div class="legend-item">🏆 <span id="legendAwards">Podelitev nagrad</span></div>
+    </div>
+  </div>
+
 <!-- FOOTER -->
 <div class="footer">
   <div class="footer-inner">
@@ -903,5 +957,144 @@ function switchLang(lang) {
 
 window._currentLang = 'sl';
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+// Init map centered on Ajdovscina race area
+const map = L.map('map', { zoomControl: true }).setView([45.8865, 13.9025], 17);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors',
+  maxZoom: 19
+}).addTo(map);
+
+// PROGA - rdeča (Tovarniška cesta krožna proga)
+const progaCoords = [
+  [45.8872, 13.9010],
+  [45.8873, 13.9018],
+  [45.8873, 13.9028],
+  [45.8873, 13.9038],
+  [45.8872, 13.9048],
+  [45.8870, 13.9052],
+  [45.8868, 13.9050],
+  [45.8867, 13.9042],
+  [45.8866, 13.9032],
+  [45.8865, 13.9022],
+  [45.8864, 13.9018],
+  [45.8863, 13.9014],
+  [45.8862, 13.9010],
+  [45.8862, 13.9005],
+  [45.8863, 13.9002],
+  [45.8865, 13.9003],
+  [45.8867, 13.9006],
+  [45.8869, 13.9008],
+  [45.8872, 13.9010],
+];
+
+L.polyline(progaCoords, {
+  color: '#E8500A',
+  weight: 4,
+  opacity: 0.9,
+  dashArray: null
+}).addTo(map).bindPopup('<b>🏁 Proga EnduroCross</b><br>Bronze osnovna krožna proga<br>Tovarniška cesta 2-4');
+
+// SERVISNA CONA / SS1 - modra (Župančičeva ulica)
+const servisCoords = [
+  [45.8868, 13.8998],
+  [45.8869, 13.9002],
+  [45.8870, 13.9008],
+  [45.8870, 13.9015],
+  [45.8870, 13.9022],
+  [45.8869, 13.9028],
+  [45.8868, 13.9022],
+  [45.8867, 13.9015],
+  [45.8866, 13.9008],
+  [45.8866, 13.9002],
+  [45.8866, 13.8998],
+  [45.8867, 13.8994],
+  [45.8868, 13.8998],
+];
+
+L.polyline(servisCoords, {
+  color: '#3B82F6',
+  weight: 4,
+  opacity: 0.9,
+}).addTo(map).bindPopup('<b>🔧 Servisna cona / SS1</b><br>Župančičeva ulica<br>Rally Vipavska dolina');
+
+// MARKERS
+const redIcon = L.divIcon({
+  html: '<div style="background:#E8500A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5)"></div>',
+  iconSize: [14,14], iconAnchor: [7,7], className: ''
+});
+const blueIcon = L.divIcon({
+  html: '<div style="background:#3B82F6;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5)"></div>',
+  iconSize: [14,14], iconAnchor: [7,7], className: ''
+});
+const goldIcon = L.divIcon({
+  html: '<div style="background:#FFD700;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;font-size:10px">🏆</div>',
+  iconSize: [16,16], iconAnchor: [8,8], className: ''
+});
+
+// Start/cilj proge
+L.marker([45.88720, 13.90100], {icon: redIcon})
+  .addTo(map)
+  .bindPopup('<b>🚩 Start / Cilj</b><br>Tovarniška cesta 2–4<br>5270 Ajdovščina');
+
+// Servisni park
+L.marker([45.886425, 13.902813], {icon: blueIcon})
+  .addTo(map)
+  .bindPopup('<b>🔧 Servisni park</b><br>Župančičeva ulica 4<br>Odprtje: 8.5.2026 ob 9:00<br>Izhod: po 21:00');
+
+// Podelitev nagrad
+L.marker([45.886581, 13.900756], {icon: L.divIcon({
+  html: '<div style="font-size:18px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.5))">🏆</div>',
+  iconSize: [20,20], iconAnchor: [10,10], className: ''
+})})
+  .addTo(map)
+  .bindPopup('<b>🏆 Podelitev nagrad</b><br>Župančičeva ulica 8<br>ob 22:00 po SS1');
+
+// Translations for map
+const mapTranslations = {
+  sl: {
+    mapTitle: "Zemljevid lokacij",
+    legendTrack: "Proga (Bronze osnova)",
+    legendService: "Servisna cona / SS1",
+    legendStart: "Start / Cilj",
+    legendServicePark: "Servisni park",
+    legendAwards: "Podelitev nagrad"
+  },
+  en: {
+    mapTitle: "Location Map",
+    legendTrack: "Race Track (Bronze base)",
+    legendService: "Service Zone / SS1",
+    legendStart: "Start / Finish",
+    legendServicePark: "Service Park",
+    legendAwards: "Prize Giving"
+  },
+  it: {
+    mapTitle: "Mappa delle Località",
+    legendTrack: "Percorso (base Bronze)",
+    legendService: "Area Assistenza / SS1",
+    legendStart: "Partenza / Arrivo",
+    legendServicePark: "Parco Assistenza",
+    legendAwards: "Premiazione"
+  }
+};
+
+// Extend switchLang for map
+const _origSwitch = window.switchLang;
+window.switchLang = function(lang) {
+  _origSwitch(lang);
+  const m = mapTranslations[lang];
+  if (m) {
+    ['mapTitle','legendTrack','legendService','legendStart','legendServicePark','legendAwards'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = m[id];
+    });
+  }
+};
+}); // end DOMContentLoaded
+</script>
+
 </body>
 </html>
