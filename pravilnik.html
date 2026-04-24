@@ -760,7 +760,10 @@
       <div id="map"></div>
     </div>
     <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#FFD700;height:12px;width:12px;border-radius:2px"></div> <span id="legendTrack">Proga (Dirka)</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FF3333;height:12px;width:12px;border-radius:2px"></div> <span id="legendServis">Servisna cona</span></div>
       <div class="legend-item">🏆 <span id="legendAwards">Podelitev nagrad</span></div>
+    </div>
     </div>
   </div>
 
@@ -964,70 +967,25 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19
 }).addTo(map);
 
-// PROGA - rdeča (Tovarniška cesta krožna proga)
-const progaCoords = [
-  [45.8872, 13.9010],
-  [45.8873, 13.9018],
-  [45.8873, 13.9028],
-  [45.8873, 13.9038],
-  [45.8872, 13.9048],
-  [45.8870, 13.9052],
-  [45.8868, 13.9050],
-  [45.8867, 13.9042],
-  [45.8866, 13.9032],
-  [45.8865, 13.9022],
-  [45.8864, 13.9018],
-  [45.8863, 13.9014],
-  [45.8862, 13.9010],
-  [45.8862, 13.9005],
-  [45.8863, 13.9002],
-  [45.8865, 13.9003],
-  [45.8867, 13.9006],
-  [45.8869, 13.9008],
-  [45.8872, 13.9010],
-];
 
-L.polyline(progaCoords, {
-  color: '#40c150',
-  weight: 4,
-  opacity: 0.9,
-  dashArray: null
-}).addTo(map).bindPopup('<b>🏁 Proga EnduroCross</b><br>Bronze osnovna krožna proga<br>Tovarniška cesta 2-4');
 
-// SERVISNA CONA / SS1 - modra (Župančičeva ulica)
-const servisCoords = [
-  [45.8868, 13.8998],
-  [45.8869, 13.9002],
-  [45.8870, 13.9008],
-  [45.8870, 13.9015],
-  [45.8870, 13.9022],
-  [45.8869, 13.9028],
-  [45.8868, 13.9022],
-  [45.8867, 13.9015],
-  [45.8866, 13.9008],
-  [45.8866, 13.9002],
-  [45.8866, 13.8998],
-  [45.8867, 13.8994],
-  [45.8868, 13.8998],
-];
 
-L.polyline(servisCoords, {
-  color: '#3B82F6',
-  weight: 4,
-  opacity: 0.9,
-}).addTo(map).bindPopup('<b>🔧 Servisna cona / SS1</b><br>Župančičeva ulica<br>Rally Vipavska dolina');
 
 // MARKERS
-const redIcon = L.divIcon({
-  html: '<div style="background:#40c150;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5)"></div>',
-  iconSize: [14,14], iconAnchor: [7,7], className: ''
-});
-const goldIcon = L.divIcon({
-  html: '<div style="background:#FFD700;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;font-size:10px">🏆</div>',
-  iconSize: [16,16], iconAnchor: [8,8], className: ''
-});
 
 
+
+// DIRKA marker - parkirišče Tovarniška cesta
+L.marker([45.8861, 13.9043], {icon: L.divIcon({
+  html: '<div style="background:#FFD700;color:#000;font-family:Barlow Condensed,sans-serif;font-weight:900;font-size:11px;padding:4px 8px;border-radius:2px;white-space:nowrap;box-shadow:0 2px 4px rgba(0,0,0,0.5)">🏁 DIRKA</div>',
+  iconAnchor: [30, 12], className: ''
+})}).addTo(map).bindPopup('<b>🏁 Proga EnduroCross</b><br>Parkirišče Tovarniška cesta 2–4');
+
+// SERVIS marker - ob cesti Tovarniška
+L.marker([45.8863, 13.9030], {icon: L.divIcon({
+  html: '<div style="background:#FF3333;color:#fff;font-family:Barlow Condensed,sans-serif;font-weight:900;font-size:11px;padding:4px 8px;border-radius:2px;white-space:nowrap;box-shadow:0 2px 4px rgba(0,0,0,0.5)">🔧 SERVIS</div>',
+  iconAnchor: [30, 12], className: ''
+})}).addTo(map).bindPopup('<b>🔧 Servisna cona</b><br>Tovarniška cesta');
 
 // Podelitev nagrad
 L.marker([45.886581, 13.900756], {icon: L.divIcon({
