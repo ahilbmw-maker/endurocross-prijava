@@ -508,6 +508,47 @@
   }
 
   /* RESPONSIVE */
+
+  /* INCLUDED IN PRICE */
+  .included-box {
+    background: rgba(64,193,80,0.06);
+    border: 1px solid rgba(64,193,80,0.25);
+    border-left: 3px solid var(--orange);
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .included-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .included-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .included-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #ccc;
+  }
+  .included-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .included-text {
+    line-height: 1.3;
+  }
+  @media (max-width: 640px) {
+    .included-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
   @media (max-width: 640px) {
     .header { padding: 40px 20px 36px; }
     .form-wrap { padding: 36px 20px 60px; }
@@ -773,6 +814,36 @@
         <div class="price-amount" style="color:var(--orange)">80 €</div>
       </div>
     </div>
+
+    <div class="included-box" id="includedBox">
+      <div class="included-title" id="includedTitle">✓ Vključeno v prijavnino</div>
+      <div class="included-grid">
+        <div class="included-item">
+          <span class="included-icon">🍽️</span>
+          <span class="included-text" id="inc1">Topel obrok</span>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🔢</span>
+          <span class="included-text" id="inc2">Startna številka</span>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">📡</span>
+          <span class="included-text" id="inc3">Transponder za merjenje časa</span>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🏁</span>
+          <span class="included-text" id="inc4">Trening + 2 dirki</span>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🏆</span>
+          <span class="included-text" id="inc5">Podelitev nagrad</span>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🅿️</span>
+          <span class="included-text" id="inc6">Servisni park</span>
+        </div>
+      </div>
+    </div>
     <div class="bank-details">
       <div class="bank-row">
         <span class="bank-label">Prejemnik</span>
@@ -849,6 +920,9 @@
       descPh: "Na kratko opiši svojo dirkaško pot, izkušnje, dosežke in zanimivosti o sebi...",
       sec7title: "Prijavnina",
       price1period: "", price2period: "Do 8. 5. 2026",
+      includedTitle: "✓ Vključeno v prijavnino",
+      inc1: "Topel obrok", inc2: "Startna številka", inc3: "Transponder za merjenje časa",
+      inc4: "Trening + 2 dirki", inc5: "Podelitev nagrad", inc6: "Servisni park",
       bankRecipient: "Prejemnik", bankAddress: "Naslov", bankPurpose: "Namen",
       bankPurposeVal: "Ime in priimek – Štartnina", bankRef: "Sklic",
       submitBtn: "Oddaj prijavo →", submitNote: "Po oddaji vas bomo kontaktirali na vaš e-mail naslov.",
@@ -892,6 +966,9 @@
       descPh: "Briefly describe your racing background, experience, achievements and fun facts...",
       sec7title: "Registration Fee",
       price1period: "Until Apr 28", price2period: "Until May 8, 2026",
+      includedTitle: "✓ Included in entry fee",
+      inc1: "Warm meal", inc2: "Start number", inc3: "Timing transponder",
+      inc4: "Practice + 2 races", inc5: "Prize giving", inc6: "Service park",
       bankRecipient: "Recipient", bankAddress: "Address", bankPurpose: "Purpose",
       bankPurposeVal: "Full Name – Entry Fee", bankRef: "Reference",
       submitBtn: "Submit Registration →", submitNote: "We will contact you at your email address after submission.",
@@ -935,6 +1012,9 @@
       descPh: "Descrivi brevemente la tua carriera agonistica, esperienze, risultati e curiosità...",
       sec7title: "Quota di iscrizione",
       price1period: "Fino al 28 apr", price2period: "Fino all'8 mag 2026",
+      includedTitle: "✓ Incluso nella quota",
+      inc1: "Pasto caldo", inc2: "Numero di partenza", inc3: "Transponder cronometrico",
+      inc4: "Allenamento + 2 gare", inc5: "Premiazione", inc6: "Parco assistenza",
       bankRecipient: "Beneficiario", bankAddress: "Indirizzo", bankPurpose: "Causale",
       bankPurposeVal: "Nome e cognome – Quota iscrizione", bankRef: "Riferimento",
       submitBtn: "Invia iscrizione →", submitNote: "Ti contatteremo al tuo indirizzo email dopo l'invio.",
