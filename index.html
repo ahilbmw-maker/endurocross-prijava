@@ -545,8 +545,170 @@
   .included-text {
     line-height: 1.3;
   }
+
+  /* COUNTDOWN TIMER */
+  .timer-bar {
+    background: #111;
+    border-bottom: 2px solid var(--orange);
+    padding: 12px 40px;
+  }
+  .timer-bar-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .timer-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .timer-label span {
+    color: var(--orange);
+  }
+  .timer-blocks {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .timer-block {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    text-align: center;
+    min-width: 52px;
+  }
+  .timer-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    color: var(--orange);
+    line-height: 1;
+    display: block;
+  }
+  .timer-unit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #555;
+    display: block;
+    margin-top: 2px;
+  }
+  .timer-sep {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: #444;
+    margin: 0 -2px;
+  }
+  .timer-urgency {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .timer-bar { padding: 10px 20px; }
+    .timer-label { font-size: 11px; }
+    .timer-block { min-width: 44px; padding: 5px 8px; }
+    .timer-num { font-size: 22px; }
+    .timer-urgency { display: none; }
+  }
+
   @media (max-width: 640px) {
     .included-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+
+  /* COUNTDOWN TIMER */
+  .timer-bar {
+    background: #111;
+    border-bottom: 2px solid var(--orange);
+    padding: 12px 40px;
+  }
+  .timer-bar-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .timer-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .timer-label span {
+    color: var(--orange);
+  }
+  .timer-blocks {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .timer-block {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    text-align: center;
+    min-width: 52px;
+  }
+  .timer-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    color: var(--orange);
+    line-height: 1;
+    display: block;
+  }
+  .timer-unit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #555;
+    display: block;
+    margin-top: 2px;
+  }
+  .timer-sep {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: #444;
+    margin: 0 -2px;
+  }
+  .timer-urgency {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .timer-bar { padding: 10px 20px; }
+    .timer-label { font-size: 11px; }
+    .timer-block { min-width: 44px; padding: 5px 8px; }
+    .timer-num { font-size: 22px; }
+    .timer-urgency { display: none; }
   }
 
   @media (max-width: 640px) {
@@ -618,6 +780,34 @@
       <option value="en">🇬🇧 English</option>
       <option value="it">🇮🇹 Italiano</option>
     </select>
+  </div>
+</div>
+
+<div class="timer-bar" id="timerBar">
+  <div class="timer-bar-inner">
+    <div class="timer-label">&#x23F1; Ostaja do konca prijav &mdash; <span>8. 5. 2026</span></div>
+    <div class="timer-blocks">
+      <div class="timer-block">
+        <span class="timer-num" id="t-days">00</span>
+        <span class="timer-unit" id="t-days-lbl">DNI</span>
+      </div>
+      <span class="timer-sep">:</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-hours">00</span>
+        <span class="timer-unit" id="t-hours-lbl">UR</span>
+      </div>
+      <span class="timer-sep">:</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-mins">00</span>
+        <span class="timer-unit" id="t-mins-lbl">MIN</span>
+      </div>
+      <span class="timer-sep">:</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-secs">00</span>
+        <span class="timer-unit" id="t-secs-lbl">SEK</span>
+      </div>
+    </div>
+    <div class="timer-urgency" id="timerUrgency">Mesta so omejena</div>
   </div>
 </div>
 
@@ -1171,6 +1361,56 @@
       alert(t.errRetry);
     }
   }
+</script>
+
+
+<script>
+(function() {
+  function updateTimer() {
+    var deadline = new Date('2026-05-08T23:59:59');
+    var now = new Date();
+    var diff = deadline - now;
+    if (diff <= 0) {
+      var bar = document.getElementById('timerBar');
+      if (bar) bar.style.display = 'none';
+      return;
+    }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('t-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('t-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('t-mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('t-secs').textContent = String(s).padStart(2,'0');
+  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
+})();
+
+// Timer label translations
+var timerLabels = {
+  sl: { label: '⏱ Ostaja do konca prijav — <span style="color:var(--orange)">8. 5. 2026</span>', urgency: 'Mesta so omejena', units: ['DNI','UR','MIN','SEK'] },
+  en: { label: '⏱ Registration closes — <span style="color:var(--orange)">May 8, 2026</span>', urgency: 'Limited spots', units: ['DAYS','HRS','MIN','SEC'] },
+  it: { label: '⏱ Iscrizioni chiudono — <span style="color:var(--orange)">8 mag 2026</span>', urgency: 'Posti limitati', units: ['GIORNI','ORE','MIN','SEC'] }
+};
+
+var _origSwitchLang = window.switchLang;
+window.switchLang = function(lang) {
+  if (_origSwitchLang) _origSwitchLang(lang);
+  var tl = timerLabels[lang];
+  if (tl) {
+    var labelEl = document.querySelector('.timer-label');
+    if (labelEl) labelEl.innerHTML = tl.label;
+    var urgEl = document.getElementById('timerUrgency');
+    if (urgEl) urgEl.textContent = tl.urgency;
+    var unitIds = ['t-days-lbl','t-hours-lbl','t-mins-lbl','t-secs-lbl'];
+    unitIds.forEach(function(id, i) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = tl.units[i];
+    });
+  }
+};
 </script>
 
 </body>
